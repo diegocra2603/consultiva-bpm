@@ -1,0 +1,30 @@
+<!-- Shortcuts toggle -->
+<button mat-icon-button (click)="openPanel()" #shortcutsOrigin>
+    <mat-icon [svgIcon]="'heroicons_outline:squares-plus'"></mat-icon>
+</button>
+
+<ng-template #shortcutsPanel>
+    <div
+        class="fixed inset-0 sm:static sm:inset-auto flex flex-col sm:min-w-90 sm:w-90 sm:rounded-2xl overflow-hidden shadow-lg">
+
+        <header-shortcuts [mode]="mode" (changeMode)="changeMode($event)" (closePanel)="closePanel()"
+            (newShortcut)=newShortcut()></header-shortcuts>
+
+        <div class="relative flex flex-col flex-auto sm:max-h-120 -mb-px overflow-y-auto bg-card">
+
+            <ng-container *ngIf="mode === 'view' || mode === 'modify'">
+
+                <list-shortcuts [shortcuts]="shortcuts" [mode]="mode" (editShortcut)="editShortcut($event)">
+                </list-shortcuts>
+
+            </ng-container>
+
+            <ng-container *ngIf="mode === 'add' || mode === 'edit'">
+                <add-edit-mode [shortcut]="shortcutToEdit" [mode]="mode" (save)="save($event)"
+                    (delete)="delete($event)"> </add-edit-mode>
+            </ng-container>
+
+        </div>
+
+    </div>
+</ng-template>

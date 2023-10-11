@@ -1,0 +1,46 @@
+<form class="p-6" [formGroup]="shortcutForm">
+    <mat-form-field class="w-full">
+        <mat-label>Label</mat-label>
+        <input matInput [formControlName]="'label'" required>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+        <mat-label>Description</mat-label>
+        <input matInput [formControlName]="'description'">
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+        <mat-label>Icono</mat-label>
+        <mat-select [formControlName]="'icon'" #singleSelect>
+            <mat-option>
+                <ngx-mat-select-search 
+                [formControl]="iconFilterCtrl"
+                placeholderLabel="Buscar Iconos..."
+                ></ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let icon of filteredIcons | async" [value]="icon">
+                <mat-icon [ngClass]="iconSize" [svgIcon]="icon"></mat-icon> {{icon}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+        <mat-label>Link</mat-label>
+        <input matInput [formControlName]="'link'" required>
+    </mat-form-field>
+    <mat-slide-toggle [color]="'primary'" [formControlName]="'useRouter'">
+        Use router for the link
+    </mat-slide-toggle>
+
+    <!-- Actions -->
+    <div class="flex items-center justify-end mt-4">
+        <button class="mr-2" *ngIf="mode === 'edit'" mat-flat-button type="button"
+            (click)="delete.emit(shortcutForm.value)">
+            Eliminar
+        </button>
+        <button mat-flat-button [color]="'primary'" [disabled]="!shortcutForm.valid" type="button"
+            (click)="internalSave()">
+            <ng-container *ngIf="mode === 'add'">Agregar</ng-container>
+            <ng-container *ngIf="mode === 'edit'">Actualizar</ng-container>
+        </button>
+    </div>
+</form>

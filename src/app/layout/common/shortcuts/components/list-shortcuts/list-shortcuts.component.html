@@ -1,0 +1,9 @@
+<div class="grid grid-cols-2 grid-flow-row">
+    <ng-container *ngFor="let shortcut of shortcuts; trackBy: trackByFn">
+        <item-shortcut [mode]="mode" [shortcut]="shortcut" (editShortcut)="editShortcut.emit($event)"></item-shortcut>
+    </ng-container>    
+</div>
+
+<ng-container *ngIf="!shortcuts || !shortcuts.length">
+    <no-shortcuts></no-shortcuts>
+</ng-container>

@@ -1,0 +1,87 @@
+<div class="flex shrink-0 items-center py-4 pr-4 pl-6 bg-primary text-on-primary">
+    <div class="sm:hidden -ml-1 mr-3">
+        <button
+            mat-icon-button
+            (click)="closePanel.emit()">
+            <mat-icon
+                class="icon-size-5 text-current"
+                [svgIcon]="'heroicons_solid:x-mark'"></mat-icon>
+        </button>
+    </div>
+    <div class="flex items-center text-lg font-medium leading-10">
+        <span class="">Shortcuts</span>
+        <ng-container *ngIf="mode !== 'view'">
+            <span class="ml-1">
+                <ng-container *ngIf="mode ==='add'">- Add new</ng-container>
+                <ng-container *ngIf="mode === 'modify' || mode === 'edit'">- Editing</ng-container>
+            </span>
+        </ng-container>
+    </div>
+    <div class="ml-auto">
+
+        <!-- View mode -->
+        <ng-container *ngIf="mode === 'view' ">
+
+            <button
+                mat-icon-button
+                (click)="changeMode.emit('modify')"
+                [matTooltip]="'Enter edit mode'">
+                <mat-icon
+                    class="icon-size-5 text-current"
+                    [svgIcon]="'heroicons_solid:pencil-square'"></mat-icon>
+            </button>
+            
+            <button
+                mat-icon-button
+                (click)="newShortcut.emit()"
+                [matTooltip]="'Add shortcut'">
+                <mat-icon
+                    class="icon-size-5 text-current"
+                    [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+            </button>
+
+        </ng-container>
+
+        <!-- Modify mode -->
+        <ng-container *ngIf="mode === 'modify'">
+
+            <button
+                mat-icon-button
+                (click)="changeMode.emit('view')"
+                [matTooltip]="'Exit edit mode'">
+                <mat-icon
+                    class="icon-size-5 text-current"
+                    [svgIcon]="'heroicons_solid:check-circle'"></mat-icon>
+            </button>
+
+        </ng-container>
+
+        <!-- Add mode -->
+        <ng-container *ngIf="mode === 'add'">
+
+            <button
+                mat-icon-button
+                (click)="changeMode.emit('view')"
+                [matTooltip]="'Cancel'">
+                <mat-icon
+                    class="icon-size-5 text-current"
+                    [svgIcon]="'heroicons_solid:x-circle'"></mat-icon>
+            </button>
+            
+        </ng-container>
+
+        <!-- Edit mode -->
+        <ng-container *ngIf="mode === 'edit'">
+
+            <button
+                mat-icon-button
+                (click)="changeMode.emit('modify')"
+                [matTooltip]="'Cancel'">
+                <mat-icon
+                    class="icon-size-5 text-current"
+                    [svgIcon]="'heroicons_solid:x-circle'"></mat-icon>
+            </button>
+
+        </ng-container>
+    </div>
+</div>
