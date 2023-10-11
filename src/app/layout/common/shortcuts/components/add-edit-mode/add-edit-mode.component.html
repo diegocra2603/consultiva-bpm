@@ -1,10 +1,10 @@
 <form class="p-6" [formGroup]="shortcutForm">
     <mat-form-field class="w-full">
-        <mat-label>Label</mat-label>
+        <mat-label>Titulo</mat-label>
         <input matInput [formControlName]="'label'" required>
     </mat-form-field>
     <mat-form-field class="w-full">
-        <mat-label>Description</mat-label>
+        <mat-label>Descripción</mat-label>
         <input matInput [formControlName]="'description'">
     </mat-form-field>
 
@@ -17,8 +17,8 @@
                 placeholderLabel="Buscar Iconos..."
                 ></ngx-mat-select-search>
             </mat-option>
-            <mat-option *ngFor="let icon of filteredIcons | async" [value]="icon">
-                <mat-icon [ngClass]="iconSize" [svgIcon]="icon"></mat-icon> {{icon}}
+            <mat-option *ngFor="let icon of filteredIcons | async" [value]="icon.namespace + ':' + icon.icon">
+                <mat-icon [ngClass]="iconSize" [svgIcon]="icon.namespace + ':' + icon.icon"></mat-icon> {{icon.icon | titlecase}}
             </mat-option>
         </mat-select>
     </mat-form-field>
