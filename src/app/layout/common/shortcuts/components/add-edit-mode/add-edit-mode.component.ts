@@ -67,7 +67,7 @@ export class AddEditModeComponent {
     shortcutForm: UntypedFormGroup = this._formBuilder.group({
         id: [''],
         label: ['', [Validators.required]],
-        description: ['', [Validators.required]],
+        description: [''],
         icon: ['', [Validators.required]],
         link: ['', [Validators.required]],
         useRouter: [false, [Validators.nullValidator]],

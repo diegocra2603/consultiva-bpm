@@ -1,0 +1,46 @@
+<ng-container *ngIf="(products$ | async) as products">
+    <ng-container *ngFor="let product of products; trackBy: trackByFn">
+        <div class="inventory-grid grid items-center gap-4 py-3 px-6 md:px-8 border-b">
+
+            <!-- Código -->
+            <div class="hidden md:block truncate">
+                {{product.sku}}
+            </div>
+
+            <!-- Nombre -->
+            <div class="col-span-3">
+                {{product.name}}
+            </div>
+
+            <!-- Rango Oferta -->
+            <div class="hidden sm:block">
+                {{product.price | currency:'USD':'symbol':'1.2-2'}}
+            </div>
+
+            <!-- Tipo Segmento -->
+            <div class="hidden sm:block">
+                {{product.price | currency:'USD':'symbol':'1.2-2'}}
+            </div>
+
+            <!-- Details button -->
+            <div>
+                <button
+                    class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                    mat-stroked-button
+                    (click)="toggleDetails(product.id)">
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="selectedProduct?.id === product.id ? 'heroicons_solid:chevron-up' : 'heroicons_solid:chevron-down'"></mat-icon>
+                </button>
+            </div>
+
+        </div>
+
+        <div class="grid">
+            <ng-container *ngIf="selectedProduct?.id === product.id">
+                <table-row-detail [selectedProduct]="selectedProduct" (closeDetails)="closeDetails()" ></table-row-detail>
+            </ng-container>
+        </div>
+
+    </ng-container>
+</ng-container>
