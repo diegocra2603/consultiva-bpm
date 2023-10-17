@@ -16,7 +16,7 @@ import {
     ReactiveFormsModule,
     UntypedFormControl,
 } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
+import { debounceTime, Subject, switchMap, takeUntil, map } from 'rxjs';
 import { ClientesService } from '../../../clientes.service';
 
 @Component({
@@ -48,6 +48,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this._clienteService.isLoading$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((isLoading) => (this.isLoading = isLoading));
+
+        this.searchInputControl.valueChanges
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                debounceTime(300),
+                switchMap((query) => {
+                    this._clienteService.setSelectedProduct(null);
+                    this._clienteService.setIsLoading(true);
+                    return this._clienteService.getProducts(
+                        0,
+                        10,
+                        'name',
+                        'asc',
+                        query,
+                    );
+                }),
+                map(() => {
+                    this._clienteService.setIsLoading(false);
+                }),
+            )
+            .subscribe();
     }
 
     ngOnDestroy(): void {

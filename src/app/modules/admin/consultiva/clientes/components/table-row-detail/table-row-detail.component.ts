@@ -73,8 +73,7 @@ export class TableRowDetailComponent implements OnInit, OnDestroy {
     filteredTags: InventoryTag[];
     flashMessage: 'success' | 'error' | null = null;
 
-    @Input() selectedProduct: InventoryProduct | null = null;
-    @Output() closeDetails: EventEmitter<void> = new EventEmitter<void>();
+    public selectedProduct: InventoryProduct | null = null;
     private _unsubscribeAll: Subject<void> = new Subject<void>();
 
     constructor(
@@ -107,6 +106,13 @@ export class TableRowDetailComponent implements OnInit, OnDestroy {
             currentImageIndex: [0],
             active: [false],
         });
+
+        this._clienteService.selectedProduct$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((selectedProduct) => {
+                this.selectedProduct = selectedProduct;
+                this.selectedProductForm.patchValue(selectedProduct);
+            });
 
         this._clienteService.brands$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -309,7 +315,7 @@ export class TableRowDetailComponent implements OnInit, OnDestroy {
                 const product = this.selectedProductForm.getRawValue();
 
                 this._clienteService.deleteProduct(product.id).subscribe(() => {
-                    this.closeDetails.emit();
+                    this._clienteService.setSelectedProduct(null);
                 });
             }
         });
